@@ -59,6 +59,19 @@ let
         sed -i "s+${super.ghidra-bin}+$out+" ${pkg_path}/support/launch.sh
       '';
     });
+
+    psptool = with pkgs.python3Packages; buildPythonPackage rec {
+      name = "psptool";
+
+      src = pkgs.fetchFromGitHub {
+        owner = "PSPReverse";
+        repo = "PSPTool";
+        rev = "f8991ab4de00a9e54769f197ab18c72ac6004e22";
+        sha256 = "0zwpd5f942pfavnlxawjgqn5r0g8dnis8is8zz23wn3j2ddkhanz";
+      };
+
+      propagatedBuildInputs = [ cryptography prettytable ];
+    };
   };
 in
 { pkgsOverlay ? import <nixpkgs> { overlays = [ overlay ]; } }:
@@ -66,5 +79,6 @@ pkgsOverlay.mkShell {
   buildInputs = with pkgsOverlay; [
 		my-ghidra	
     (binutils-unwrapped.overrideAttrs(old: { configureFlags = old.configureFlags ++ [ "--target=xtensa-elf" "--program-prefix=xtensa-" ]; doInstallCheck = false; configurePlatforms = [ ]; }))
+    psptool
   ];
 }
