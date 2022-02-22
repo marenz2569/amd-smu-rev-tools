@@ -1,0 +1,3 @@
+[submodule "wsym"]
+	path = wsym
+	url = https://github.com/wapiflapi/wsym.git

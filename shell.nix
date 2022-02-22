@@ -80,5 +80,6 @@ pkgsOverlay.mkShell {
 		my-ghidra	
     (binutils-unwrapped.overrideAttrs(old: { configureFlags = old.configureFlags ++ [ "--target=xtensa-elf" "--program-prefix=xtensa-" ]; doInstallCheck = false; configurePlatforms = [ ]; }))
     psptool
+    python3
   ];
 }
