@@ -26,26 +26,26 @@ let
   pkg_path = "$out/lib/ghidra";
 
   overlay = self: super: {
-		# https://stackoverflow.com/questions/68523367/in-nixpkgs-how-do-i-override-files-of-a-package-without-recompilation/68523368#68523368
+    # https://stackoverflow.com/questions/68523367/in-nixpkgs-how-do-i-override-files-of-a-package-without-recompilation/68523368#68523368
     my-ghidra = super.ghidra-bin.overrideAttrs (old: {
-			# Using `buildCommand` replaces the original packages build phases.
-			buildCommand = ''
-				set -euo pipefail
+      # Using `buildCommand` replaces the original packages build phases.
+      buildCommand = ''
+        set -euo pipefail
 
-				${
-					super.lib.concatStringsSep "\n"
-						(map
-							(outputName:
-								''
-									echo "Copying output ${outputName}"
-									set -x
-									cp -r "${super.ghidra-bin.${outputName}}" "''$${outputName}"
-									set +x
+        ${
+          super.lib.concatStringsSep "\n"
+            (map
+              (outputName:
                 ''
-							)
-							(old.outputs or ["out"])
-						)
-				}
+                  echo "Copying output ${outputName}"
+                  set -x
+                  cp -r "${super.ghidra-bin.${outputName}}" "''$${outputName}"
+                  set +x
+                ''
+              )
+              (old.outputs or ["out"])
+            )
+        }
 
         chmod -R +w $out
 
@@ -77,7 +77,7 @@ in
 { pkgsOverlay ? import <nixpkgs> { overlays = [ overlay ]; } }:
 pkgsOverlay.mkShell {
   buildInputs = with pkgsOverlay; [
-		my-ghidra	
+    my-ghidra  
     (binutils-unwrapped.overrideAttrs(old: { configureFlags = old.configureFlags ++ [ "--target=xtensa-elf" "--program-prefix=xtensa-" ]; doInstallCheck = false; configurePlatforms = [ ]; }))
     psptool
     python3

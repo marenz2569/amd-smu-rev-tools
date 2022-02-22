@@ -39,7 +39,7 @@ do
 
 	cp $ELF $ELF.bak
 	./wsym/wsym.py -f $FLAT_ENTRIES $ELF.bak $ELF
-	# rm $ELF.bak
+	rm $ELF.bak
 
 	echo $ELF
 done
