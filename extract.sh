@@ -27,16 +27,9 @@ do
 	xtensa-strip $ELF
 
 	# find all function entries in the firmware
-	IFS=$'\n'
-	ENTRIES=($(xtensa-objdump -D $ELF | grep "entry.*a1," | awk -F ':' '{gsub(" +",""); print $1;}'))
+	./find_funcs.py $TRIMMED > $FLAT_ENTRIES
 
 	# add symbol to elf for each function entry
-	touch $FLAT_ENTRIES
-	for entry in "${ENTRIES[@]}"
-	do
-		echo "0x${entry} FUNC_${entry}" >> $FLAT_ENTRIES
-	done
-
 	cp $ELF $ELF.bak
 	./wsym/wsym.py -f $FLAT_ENTRIES $ELF.bak $ELF
 	rm $ELF.bak
