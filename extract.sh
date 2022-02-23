@@ -9,7 +9,7 @@ fi
 
 EXTRACTED_DIR=$1_extracted
 
-rm -r $EXTRACTED_DIR
+rm -r $EXTRACTED_DIR || true
 psptool -X -u -d 0 $1
 
 IFS=$'\n'

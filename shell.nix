@@ -4,10 +4,10 @@ let
     name = "ghidra-xtensa";
 
     src = pkgs.fetchFromGitHub {
-      owner = "yath";
+      owner = "Ebiroll";
       repo = "ghidra-xtensa";
-      rev = "e307f72005ccf70ba814c2b3b64fec786fffff22";
-      sha256 = "175ikzwaadlj6kwi9smarx0pafzv6xrswnkyd62nmxyg850sk4v6";
+      rev = "c4c5fcebd5169c4dcbacb9d761a95994e2ec1cb3";
+      sha256 = "0x3h22zz7fn4gx1j7lxrjghk87l3x4hw4bpkn2firl2c60wzgl76";
     };
 
     buildInputs = with pkgs; [ perl zip ];
